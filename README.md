@@ -1,3 +1,3 @@
 # machine_learning
 
-Scripts that make the ML easier in R.
+Scripts that make the ML task easier in R.
