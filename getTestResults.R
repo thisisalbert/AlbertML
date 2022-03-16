@@ -12,7 +12,7 @@ getTestResults <- function(actuals, predictedScores, threshold = 0.5) {
       .x == "0" ~ control,
       .x == "1" ~ case
     ))) %>%
-    mutate(across(predicted:actuals, as.factor))
+    mutate(across(predicted:actuals, ~ factor(.x, levels = c(case, control)))
 
   auroc = PRROC::roc.curve(
     scores.class0 = predictedScores,
