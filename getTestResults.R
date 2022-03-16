@@ -63,14 +63,14 @@ getTestResults <- function(actuals, predictedScores, threshold = 0.5) {
       tibble(Spec = .)
   ) %>%
     mutate(F1 = (2 * PPV * Sens)/(PPV + Sens)) %>%
-    select(Accuracy, Kappa, ROC, Sens, Spec, PPV, NPV) %>%
+    select(Accuracy, Kappa, ROC, Sens, Spec, PPV, NPV, F1) %>%
     mutate(Type = "Test", .before = everything())
 
   return(
     list(
       cm = cm,
       auroc = auroc,
-      metric = metrics
+      metrics = metrics
     )
   )
 
