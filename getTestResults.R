@@ -12,16 +12,16 @@ getTestResults <- function(actuals, predictedScores, threshold = 0.5) {
       .x == "0" ~ control,
       .x == "1" ~ case
     ))) %>%
-    mutate(across(predicted:actuals, ~ factor(.x, levels = c(case, control)))
+    mutate(across(predicted:actuals, ~ factor(.x, levels = c(case, control))))
 
-  test_auroc = PRROC::roc.curve(
+  auroc = PRROC::roc.curve(
     scores.class0 = predictedScores,
     weights.class0 = actuals,
     curve = TRUE
   )
 
   metrics = bind_cols(
-    test_auroc %>%
+    auroc %>%
       chuck("auc") %>%
       tibble(ROC = .),
     cm %>%
@@ -69,7 +69,7 @@ getTestResults <- function(actuals, predictedScores, threshold = 0.5) {
   return(
     list(
       cm = cm,
-      auroc = test_auroc,
+      auroc = auroc,
       metrics = metrics
     )
   )
