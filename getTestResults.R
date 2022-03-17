@@ -1,4 +1,4 @@
-getTestResults <- function(actuals, predictedScores, threshold = 0.5) {
+getTestResults <- function(case, control, actuals, predictedScores, threshold = 0.5) {
 
   cm = InformationValue::confusionMatrix(
     actuals = actuals,
