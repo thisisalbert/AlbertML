@@ -2,6 +2,10 @@ makeCVseeds <- function(
     tunes = NULL, numCV = 10, repeatsCV = NULL, type = c("tuneGrid", "tuneLength")
 ) {
   
+  if (type %in% c("tuneGrid", "tuneLength") == FALSE) {
+    stop("Only 'tuneGrid' or 'tuneLength' is accepted for 'type'")
+  }
+  
   # When tuneLength is used
   
   if (type == "tuneLength") {
@@ -12,7 +16,7 @@ makeCVseeds <- function(
         simplify = FALSE
       ),
       sample.int(n = 2^15, size = 1, replace = FALSE)
-    )  
+    )
   }
   
   # When tuneGrid is used
