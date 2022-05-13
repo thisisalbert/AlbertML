@@ -2,19 +2,20 @@ getTrainResults_MultiClass <- function(
     model_train = model_train,
     case = case, 
     control = "The rest", 
-    actuals, 
-    predictedScores, 
     threshold = NULL, 
     threshold_type = c("Ones", "Zeros", "Both", "misclasserror"), 
     type = "Train"
 ) {
   
+  actuals <- ifelse(model_train$pred$obs == case, 1, 0)
+  predictedScores <- model_train$pred[[case]]
+  
   # Set optimal threshold based on model training
   
   if (is.null(threshold)) {
     threshold <- InformationValue::optimalCutoff(
-      actuals = ifelse(model_train$pred$obs == case, 1, 0),
-      predictedScores = model_train$pred[[case]],
+      actuals = actuals,
+      predictedScores = predictedScores,
       optimiseFor = threshold_type
     )
   }
@@ -28,12 +29,12 @@ getTrainResults_MultiClass <- function(
   ) %>%
     as.data.frame() %>%
     rownames_to_column("predicted") %>%
-    pivot_longer(cols = c("0", "1"), names_to = "actuals", values_to = "freq") %>%
-    mutate(across(predicted:actuals, ~ case_when(
+    pivot_longer(cols = c("0", "1"), names_to = "truth", values_to = "freq") %>%
+    mutate(across(predicted:truth, ~ case_when(
       .x == "0" ~ control,
       .x == "1" ~ case
     ))) %>%
-    mutate(across(predicted:actuals, ~ factor(.x, levels = c(case, control))))
+    mutate(across(predicted:truth, ~ factor(.x, levels = c(case, control))))
   
   # Generate AUROC
   
@@ -50,7 +51,7 @@ getTrainResults_MultiClass <- function(
       chuck("auc") %>%
       tibble(ROC = .),
     cm %>%
-      filter(predicted == actuals) %>%
+      filter(predicted == truth) %>%
       pull(freq) %>%
       sum() %>%
       magrittr::divide_by(sum(cm$freq)) %>%
