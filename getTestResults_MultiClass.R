@@ -1,6 +1,27 @@
-getTestResults_MultiClass <- function(case = case, control = "The rest", actuals, predictedScores, threshold = 0.5, type = "Test") {
-
-  cm = InformationValue::confusionMatrix(
+getTestResults_MultiClass <- function(
+    model_train = model_train,
+    case = case, 
+    control = "The rest", 
+    actuals, 
+    predictedScores, 
+    threshold = NULL, 
+    threshold_type = c("Ones", "Zeros", "Both", "misclasserror"), 
+    type = "Test"
+) {
+  
+  # Set optimal threshold based on model training
+  
+  if (is.null(threshold)) {
+    threshold <- InformationValue::optimalCutoff(
+      actuals = ifelse(model_train$pred$obs == case, 1, 0),
+      predictedScores = model_train$pred[[case]],
+      optimiseFor = threshold_type
+    )
+  }
+  
+  # Generate confusion matrix based on optimal cutoff
+  
+  cm <- InformationValue::confusionMatrix(
     actuals = actuals,
     predictedScores = predictedScores,
     threshold = threshold
@@ -13,14 +34,18 @@ getTestResults_MultiClass <- function(case = case, control = "The rest", actuals
       .x == "1" ~ case
     ))) %>%
     mutate(across(predicted:actuals, ~ factor(.x, levels = c(case, control))))
-
-  auroc = PRROC::roc.curve(
+  
+  # Generate AUROC
+  
+  auroc <- PRROC::roc.curve(
     scores.class0 = predictedScores,
     weights.class0 = actuals,
     curve = TRUE
   )
-
-  metrics = bind_cols(
+  
+  # Generate metrics based on a specific threshold
+  
+  metrics <- bind_cols(
     auroc %>%
       chuck("auc") %>%
       tibble(ROC = .),
@@ -64,8 +89,11 @@ getTestResults_MultiClass <- function(case = case, control = "The rest", actuals
   ) %>%
     mutate(F1 = (2 * PPV * Sens)/(PPV + Sens)) %>%
     select(Accuracy, Kappa, ROC, Sens, Spec, PPV, NPV, F1) %>%
+    mutate(Bal_Accuracy = (Sens + Spec) / 2, .after = Accuracy) %>% 
     mutate(Type = type, Case = case, .before = everything())
-
+  
+  # Output
+  
   return(
     list(
       case = case,
@@ -74,5 +102,5 @@ getTestResults_MultiClass <- function(case = case, control = "The rest", actuals
       metrics = metrics
     )
   )
-
+  
 }
