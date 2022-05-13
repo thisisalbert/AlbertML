@@ -1,4 +1,4 @@
-getTestResults_MultiClass <- function(case = case, control = "The rest", actuals, predictedScores, threshold = 0.5) {
+getTestResults_MultiClass <- function(case = case, control = "The rest", actuals, predictedScores, threshold = 0.5, type = "Test") {
 
   cm = InformationValue::confusionMatrix(
     actuals = actuals,
@@ -64,7 +64,7 @@ getTestResults_MultiClass <- function(case = case, control = "The rest", actuals
   ) %>%
     mutate(F1 = (2 * PPV * Sens)/(PPV + Sens)) %>%
     select(Accuracy, Kappa, ROC, Sens, Spec, PPV, NPV, F1) %>%
-    mutate(Type = "Test", Case = case, .before = everything())
+    mutate(Type = type, Case = case, .before = everything())
 
   return(
     list(
