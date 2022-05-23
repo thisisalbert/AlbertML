@@ -1,4 +1,4 @@
-getTestResults <- function(case = case, control = control, actuals, predictedScores, threshold = 0.5) {
+getTestResults <- function(case = case, control = control, actuals, predictedScores, threshold = 0.5, type = "Test") {
 
   cm = InformationValue::confusionMatrix(
     actuals = actuals,
@@ -63,8 +63,9 @@ getTestResults <- function(case = case, control = control, actuals, predictedSco
       tibble(Spec = .)
   ) %>%
     mutate(F1 = (2 * PPV * Sens)/(PPV + Sens)) %>%
+    mutate(Bal_Accuracy = (Sens + Spec)/2, .after = Accuracy) %>%
     select(Accuracy, Kappa, ROC, Sens, Spec, PPV, NPV, F1) %>%
-    mutate(Type = "Test", .before = everything())
+    mutate(Type = type, .before = everything())
 
   return(
     list(
