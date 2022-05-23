@@ -64,7 +64,7 @@ getTestResults <- function(case = case, control = control, actuals, predictedSco
   ) %>%
     mutate(F1 = (2 * PPV * Sens)/(PPV + Sens)) %>%
     mutate(Bal_Accuracy = (Sens + Spec)/2, .after = Accuracy) %>%
-    select(Accuracy, Kappa, ROC, Sens, Spec, PPV, NPV, F1) %>%
+    select(Accuracy, Kappa, Bal_Accuracy, ROC, Sens, Spec, PPV, NPV, F1) %>%
     mutate(Type = type, .before = everything())
 
   return(
