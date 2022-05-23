@@ -1,4 +1,4 @@
-customFunction <- function(data, lev = NULL, model = NULL){
+customSummary <- function(data, lev = NULL, model = NULL){
   
   default <- caret::defaultSummary(data, lev, model)
   twoclass <- caret::twoClassSummary(data, lev, model)
