@@ -1,4 +1,4 @@
-function(x, metric, tol = 5, maximize) {
+customTolerance <- function(x, metric, tol = 5, maximize) {
 
   index <- 1:nrow(x)
   
