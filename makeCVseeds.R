@@ -9,7 +9,7 @@ makeCVseeds <- function(
   # When tuneLength is used
   
   if (type == "tuneLength") {
-    c(
+    seeds <- c(
       replicate(
         expr = sample.int(n = 2^15, size = tunes, replace = FALSE),
         n = ifelse(is.null(repeatsCV), numCV, repeatsCV * numCV),
@@ -22,7 +22,7 @@ makeCVseeds <- function(
   # When tuneGrid is used
   
   if (type == "tuneGrid") {
-    c(
+    seeds <- c(
       replicate(
         expr = sample.int(n = 2^15, size = 1, replace = FALSE),
         n = ifelse(is.null(repeatsCV), numCV, repeatsCV * numCV),
@@ -31,5 +31,7 @@ makeCVseeds <- function(
       sample.int(n = 2^15, size = 1, replace = FALSE)
     )  
   }
+  
+  return(seeds)
   
 }
