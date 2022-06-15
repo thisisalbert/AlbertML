@@ -1,4 +1,4 @@
-plotCM <- function(df, title, subtitle, color) {
+plotCM <- function(df, title = NULL, subtitle = NULL, color = "dodgerblue") {
   df %>% 
     mutate(Status = ifelse(Prediction == Reference, "Hit", "Miss")) %>% 
     ggplot(aes(
