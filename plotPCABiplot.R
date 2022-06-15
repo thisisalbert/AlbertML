@@ -1,7 +1,7 @@
 plotPCABiplot <- function(df, color, fill, var_pc1, var_pc2) {
   df %>% 
     ggplot(
-      aes(x = PC1, y = PC2, color = color, fill = fill)
+      aes_string(x = "PC1", y = "PC2", color = color, fill = fill), 
     ) +
     geom_point(alpha = 0.5) +
     stat_ellipse(geom = "polygon", alpha = 0.1) +
