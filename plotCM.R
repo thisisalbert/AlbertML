@@ -1,9 +1,10 @@
-plotCM <- function(df, title = NULL, subtitle = NULL, color = "dodgerblue") {
+plotCM <- function(
+    df, x = "Reference", y = "Prediction", label = "Freq", fill = "Status", 
+    title = NULL, subtitle = NULL, color = "dodgerblue"
+) {
   df %>% 
     mutate(Status = ifelse(Prediction == Reference, "Hit", "Miss")) %>% 
-    ggplot(aes(
-      x = Reference, y = Prediction, label = Freq, fill = Status
-    )) +
+    ggplot(aes_string(x = x, y = y, label = label, fill = fill)) +
     geom_tile() +
     geom_text(fontface = "bold", size = 12, vjust = 0.5, hjust = 0.5) +
     scale_x_discrete(position = "top", expand = c(0,0)) +
