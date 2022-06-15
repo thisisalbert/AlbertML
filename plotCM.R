@@ -1,17 +1,17 @@
 plotCM <- function(
-    df, x = "Reference", y = "Prediction", label = "Freq", fill = "Status", 
+    df, x = "Reference", y = "Prediction", label = "Freq", fill = "Status",
     title = NULL, subtitle = NULL, color = "dodgerblue"
 ) {
   df %>% 
-    mutate(Status = ifelse(df[[x]] == df[[y]], "Hit", "Miss")) %>% 
     ggplot(aes_string(x = x, y = y, label = label, fill = fill)) +
     geom_tile() +
     geom_text(fontface = "bold", size = 12, vjust = 0.5, hjust = 0.5) +
-    scale_x_discrete(position = "top", expand = c(0,0)) +
+    scale_x_discrete(limits = rev, position = "top", expand = c(0,0)) +
     scale_y_discrete(limits = rev, expand = c(0,0)) +
     scale_fill_manual(values = c("Miss" = "white", "Hit" = color)) +
     coord_fixed() +
-    labs(title = title, subtitle = subtitle) +
+    labs(title = title, subtitle = subtitle, 
+         x = DescTools::StrCap(x), y = DescTools::StrCap(y)) +
     theme(
       text = element_text(size = 20),
       axis.title = element_text(face = "bold"),
