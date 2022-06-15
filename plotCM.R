@@ -3,7 +3,7 @@ plotCM <- function(
     title = NULL, subtitle = NULL, color = "dodgerblue"
 ) {
   df %>% 
-    mutate(Status = ifelse(Prediction == Reference, "Hit", "Miss")) %>% 
+    mutate(Status = ifelse(df[[x]] == df[[y]], "Hit", "Miss")) %>% 
     ggplot(aes_string(x = x, y = y, label = label, fill = fill)) +
     geom_tile() +
     geom_text(fontface = "bold", size = 12, vjust = 0.5, hjust = 0.5) +
