@@ -1,11 +1,12 @@
 plotCM <- function(
     df, x = "Reference", y = "Prediction", label = "Freq", fill = "Status",
-    title = NULL, subtitle = NULL, color = "dodgerblue"
+    title = NULL, subtitle = NULL, color = "dodgerblue", font_size = 20,
+    tile_font_size = 12
 ) {
   df %>% 
     ggplot(aes_string(x = x, y = y, label = label, fill = fill)) +
     geom_tile() +
-    geom_text(fontface = "bold", size = 12, vjust = 0.5, hjust = 0.5) +
+    geom_text(fontface = "bold", size = tile_font_size, vjust = 0.5, hjust = 0.5) +
     scale_x_discrete(position = "top", expand = c(0,0)) +
     scale_y_discrete(limits = rev, expand = c(0,0)) +
     scale_fill_manual(values = c("Miss" = "white", "Hit" = color)) +
@@ -13,8 +14,9 @@ plotCM <- function(
     labs(title = title, subtitle = subtitle, 
          x = DescTools::StrCap(x), y = DescTools::StrCap(y)) +
     theme(
-      text = element_text(size = 20),
-      axis.title = element_text(face = "bold"),
+      text = element_text(size = font_size, color = "black"),
+      axis.text = element_text(size = font_size, color = "black"),
+      axis.title = element_text(face = "bold", size = font_size, color = "black"),
       axis.ticks = element_blank(),
       legend.position = "none",
       panel.background = element_blank(),
