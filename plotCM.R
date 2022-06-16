@@ -5,7 +5,7 @@ plotCM <- function(
 ) {
   df %>% 
     ggplot(aes_string(x = x, y = y, label = label, fill = fill)) +
-    geom_tile() +
+    geom_tile(size = 1) +
     geom_text(fontface = "bold", size = tile_font_size, vjust = 0.5, hjust = 0.5) +
     scale_x_discrete(position = "top", expand = c(0,0)) +
     scale_y_discrete(limits = rev, expand = c(0,0)) +
