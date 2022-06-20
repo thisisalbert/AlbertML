@@ -1,7 +1,7 @@
 plotCM <- function(
     df, x = "Reference", y = "Prediction", label = "Freq", fill = "Status",
-    title = NULL, subtitle = NULL, color = "dodgerblue", font_size = 20,
-    tile_font_size = 12
+    title = NULL, subtitle = NULL, color = "dodgerblue", font_size = 25,
+    tile_font_size = 20
 ) {
   df %>% 
     ggplot(aes_string(x = x, y = y, label = label, fill = fill)) +
