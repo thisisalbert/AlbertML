@@ -41,7 +41,7 @@ getCM <- function(model, prob_preds, real_labels, case, control, type_opt) {
           reference = real_labels,
           positive = case
         ),
-        type_opt = type_opt
+        type_opt = type_opt,
         threshold
       )
     )
