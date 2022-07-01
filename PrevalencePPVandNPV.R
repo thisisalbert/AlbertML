@@ -24,7 +24,7 @@ PrevalencePPVandNPV <- function(
       setNames(paste0("NPV_Prevalence_", prevalence)) %>%
       bind_cols()
       
-    return(PPV, NPV)
+    return(c(PPV, NPV))
   	
   }
 
