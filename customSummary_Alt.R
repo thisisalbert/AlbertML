@@ -18,6 +18,6 @@ customSummary_Alt <- function(data, lev = NULL, model = NULL) {
       setNames(paste0("NPV_Prevalence_", prevalence)) %>%
       bind_cols()
       
-  return(default, twoclass, bal_acc, f_score, ppv, npv)
+  return(c(default, twoclass, bal_acc, f_score, ppv, npv))
 
 }
