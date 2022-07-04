@@ -1,5 +1,5 @@
 PrevalencePPVandNPV <- function(
-    Metric, Sens, Spec, Min_Prevalence = 0.1, Max_Prevalence = 0.9
+    Metric = c("PPV", "NPV"), Sens = Sens, Spec = Spec, Min_Prevalence = 0.1, Max_Prevalence = 0.9
 ) {
 
   if (!Metric %in% c("PPV", "NPV")) {
