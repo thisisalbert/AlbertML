@@ -1,4 +1,4 @@
-getCM <- function(model, prob_preds, real_labels, case, control, type_opt) {
+getCM <- function(model, prob_preds, real_labels, id_observations, case, control, type_opt) {
   
   if (is.numeric(type_opt)) {
     
@@ -42,7 +42,8 @@ getCM <- function(model, prob_preds, real_labels, case, control, type_opt) {
           positive = case
         ),
         type_opt = type_opt,
-        threshold
+        threshold,
+        tibble(id_observations = id_observations)
       )
     )
     
