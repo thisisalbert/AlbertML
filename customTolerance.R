@@ -1,4 +1,4 @@
-customTolerance <- function (x, metric, tol = 2, maximize)
+customTolerance <- function (x, metric, tol = 5, maximize)
 {
   if (!maximize) {
     best <- min(x[, metric])
