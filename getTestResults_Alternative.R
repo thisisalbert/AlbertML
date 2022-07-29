@@ -3,7 +3,8 @@ getTestResults_Alternative <- function(
 	prob_preds, 
 	real_labels, 
 	case = case, 
-	control = control, 
+	control = control,
+	id_obs = id_obs,
 	type_opt = "misclasserror", 
 	type = "Test"
 ) {
@@ -12,6 +13,7 @@ cm_obj = getCM(
 	model = model, 
 	prob_preds = prob_preds, 
 	real_labels = real_labels, 
+	id_obs = id_obs,
 	case = case, 
 	control = control, 
 	type_opt = type_opt
