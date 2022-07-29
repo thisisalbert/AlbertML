@@ -24,5 +24,8 @@ auroc_obj = PRROC::roc.curve(
     weights.class0 = ifelse(real_labels == case, 1, 0),
     curve = TRUE
   )
-
+	
+res <- list(CM = cm_obj, AUROC = auroc_obj)
+return(res)
+	
 }
