@@ -20,7 +20,7 @@ cm_obj = getCM(
 )
 
 auroc_obj = PRROC::roc.curve(
-    scores.class0 = prob_preds,
+    scores.class0 = prob_preds[[case]],
     weights.class0 = ifelse(real_labels == case, 1, 0),
     curve = TRUE
   )
