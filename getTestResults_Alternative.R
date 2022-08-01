@@ -8,12 +8,6 @@ getTestResults_Alternative <- function(
     type = "Test"
 ) {
   
-  if (length(model$levels) > 2) {
-    multiclass <- TRUE
-  } else {
-    multiclass <- FALSE
-  }
-  
   cm_obj = getCM(
     model = model, 
     prob_preds = prob_preds, 
