@@ -1,14 +1,17 @@
-customTolerance <- function (x, metric, tol = 5, maximize)
+customTolerance <- function (x, metric, tol = 1.5, maximize)
 {
+  index <- 1:nrow(x)
   if (!maximize) {
     best <- min(x[, metric])
     perf <- (x[, metric] - best)/best * 100
-    flag <- perf <= tol
+    candidates <- index[perf < tol]
+    bestIter <- min(candidates)
   }
   else {
     best <- max(x[, metric])
-    perf <- (best - x[, metric])/best * 100
-    flag <- perf <= tol
+    perf <- (x[, metric] - best)/best * -100
+    candidates <- index[perf < tol]
+    bestIter <- min(candidates)
   }
-  min(x[flag, "Variables"])
+  bestIter
 }
