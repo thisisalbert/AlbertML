@@ -8,6 +8,12 @@ getTestResults_Alternative <- function(
     type = "Test"
 ) {
   
+  if (length(model$levels) > 2) {
+    multiclass <- TRUE
+  } else {
+    multiclass <- FALSE
+  }
+  
   cm_obj = getCM(
     model = model, 
     prob_preds = prob_preds, 
@@ -23,7 +29,5 @@ getTestResults_Alternative <- function(
     curve = TRUE
   )
   
-  res <- list(CM = cm_obj, AUROC = auroc_obj)
-  return(res)
-  
+  return(list(CM = cm_obj, AUROC = auroc_obj))
 }
