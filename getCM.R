@@ -8,10 +8,20 @@ getCM <- function(
 ) {
   
   if (length(model$levels) > 2) {
+    
+    multiclass <- TRUE
     control <- "the_rest"
+    real_labels <- factor(
+      x = ifelse(real_labels == case, case, control), 
+      levels = c(case, control)
+    )
+    
   } else {
+    
+    multiclass <- FALSE
     control <- model$levels %>% 
       str_subset(case, negate = TRUE)
+    
   }
   
   if (is.numeric(type_opt)) {
