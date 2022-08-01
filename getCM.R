@@ -1,4 +1,18 @@
-getCM <- function(model, prob_preds, real_labels, id_obs, case, control, type_opt) {
+getCM <- function(
+    model, 
+    prob_preds, 
+    real_labels, 
+    id_obs, 
+    case, 
+    type_opt
+) {
+  
+  if (length(model$levels) > 2) {
+    control <- "the_rest"
+  } else {
+    control <- model$levels %>% 
+      str_subset(case, negate = TRUE)
+  }
   
   if (is.numeric(type_opt)) {
     
@@ -7,16 +21,13 @@ getCM <- function(model, prob_preds, real_labels, id_obs, case, control, type_op
       levels = c(case, control)
     )
     
-    return(
-      c(
-        caret::confusionMatrix(
-          data = custom_pred,
-          reference = real_labels,
-          positive = case
-        ),
-        type_opt = type_opt
-      )
+    cm <- caret::confusionMatrix(
+      data = custom_pred,
+      reference = real_labels,
+      positive = case
     )
+    
+    return(c(cm, type_opt = type_opt))
     
   }
   
@@ -34,18 +45,13 @@ getCM <- function(model, prob_preds, real_labels, id_obs, case, control, type_op
       levels = c(case, control)
     )
     
-    return(
-      c(
-        caret::confusionMatrix(
-          data = custom_pred,
-          reference = real_labels,
-          positive = case
-        ),
-        type_opt = type_opt,
-        threshold,
-        tibble(id_obs = id_obs)
-      )
+    cm <- caret::confusionMatrix(
+      data = custom_pred,
+      reference = real_labels,
+      positive = case
     )
+    
+    return(c(cm, type_opt = type_opt, threshold, tibble(id_obs = id_obs)))
     
   }
   
