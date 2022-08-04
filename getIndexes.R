@@ -1,7 +1,8 @@
 getIndexes <- function(
     train_df = train_set, 
     id = "Sample_ID", 
-    outcomes = "Comparison"
+    outcomes = "Comparison",
+    n_cv = n_cv
 ) {
   trainIndexes <- train_df %>%
     group_by(across(all_of(outcomes))) %>%
