@@ -4,7 +4,7 @@ getIndexes <- function(
     outcomes = "Comparison"
 ) {
   trainIndexes <- train_df %>%
-    group_by(across(outcomes)) %>%
+    group_by(across(all_of(outcomes))) %>%
     slice_sample(
       n = round(nrow(.) / (n_cv * length(levels(train_df[[outcomes]])))),
       replace = FALSE
