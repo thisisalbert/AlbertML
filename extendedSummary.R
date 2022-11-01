@@ -8,7 +8,7 @@ extendedSummary <- function(data, lev = NULL, model = NULL) {
   F1 = caret::F_meas(data[, "pred"], data[, "obs"])
   Balanced_Accuracy = (Sensitivity + Specificity)/2
   
-  prevalence = seq(0.1, 0.9, 0.1)
+  prevalence = seq(0.1, 0.5, 0.1)
   
   PPVs = map_dbl(
     .x = prevalence,
