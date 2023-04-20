@@ -1,5 +1,5 @@
 makeCVseeds <- function(
-    tunes = NULL, numCV = NULL, repeatsCV = NULL, type = c("tuneGrid", "tuneLength")
+	type = c("tuneGrid", "tuneLength"), tunes = NULL, numCV = NULL, repeatsCV = NULL
 ) {
   
   if (type %in% c("tuneGrid", "tuneLength") == FALSE) {
