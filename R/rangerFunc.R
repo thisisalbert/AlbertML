@@ -28,5 +28,5 @@ rangerFunc <- list(
   },
   selectSize = pickSizeBest,
   selectVar = pickVars,
-  summary = extendedSummary
+  summary = improvedSummary
 )
