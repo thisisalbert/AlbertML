@@ -6,7 +6,7 @@ improvedSummary <- function(data, lev = NULL, model = NULL) {
     stop(paste("Your outcome has", length(lev), "levels. The twoClassSummary() function isn't appropriate."))
   }
   
-  requireNamespaceQuietStop("pROC")
+  caret:::requireNamespaceQuietStop("pROC")
   
   if (!all(levels(data[, "pred"]) == lev)) {
     stop("levels of observed and predicted data do not match")
