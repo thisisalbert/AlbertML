@@ -8,7 +8,6 @@ rangerFunc <- list(
       data = dat,
       importance = "impurity",
       probability = TRUE,
-      num.threads = parallel::detectCores() - 1,
       ...
     )
   },
