@@ -21,7 +21,7 @@ rangerFunc <- list(
     vimp <- data.frame(ranger::importance(object))
     colnames(vimp) <- "Overall"
     vimp$var <- rownames(vimp)
-    vimp <- vimp[order(vimp$Overall, decreasing = TRUE),]
+    vimp <- vimp[order(vimp$Overall, decreasing = TRUE), , drop = FALSE]
     rownames(vimp) <- NULL
     vimp <- vimp[, c("var", "Overall")]
     return(vimp)
