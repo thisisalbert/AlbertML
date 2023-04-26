@@ -18,12 +18,13 @@ rangerFunc <- list(
     cbind(data.frame(pred = raws), as.data.frame(prob))
   },
   rank = function(object, x, y){
-    loadNamespace("tidyverse")
-    object %>%
-      ranger::importance() %>%
-      enframe(name = "var", value = "Overall") %>%
-      arrange(desc(Overall)) %>%
-      as.data.frame()
+    vimp <- data.frame(ranger::importance(object))
+    colnames(vimp) <- "Overall"
+    vimp$var <- rownames(vimp)
+    vimp <- vimp[order(vimp$Overall, decreasing = TRUE),]
+    rownames(vimp) <- NULL
+    vimp <- vimp[, c("var", "Overall")]
+    return(vimp)
   },
   selectSize = pickSizeBest,
   selectVar = pickVars,
