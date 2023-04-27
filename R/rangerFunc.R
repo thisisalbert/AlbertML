@@ -26,7 +26,19 @@ rangerFunc <- list(
     vimp <- vimp[, c("var", "Overall")]
     return(vimp)
   },
-  selectSize = caret::pickSizeBest,
-  selectVar = caret::pickVars,
+  selectSize = function (x, metric, maximize){
+    best <- if (maximize) {
+      which.max(x[, metric])
+    } else {
+      which.min(x[, metric])
+    }
+    min(x[best, "Variables"])
+  },
+  selectVar = function (y, size){
+    finalImp <- ddply(y[, c("Overall", "var")], .(var), function(x) mean(x$Overall, na.rm = TRUE))
+    names(finalImp)[2] <- "Overall"
+    finalImp <- finalImp[order(finalImp$Overall, decreasing = TRUE),]
+    as.character(finalImp$var[1:size])
+  },
   summary = improvedSummary
 )
