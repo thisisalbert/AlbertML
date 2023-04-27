@@ -26,7 +26,7 @@ rangerFunc <- list(
     vimp <- vimp[, c("var", "Overall")]
     return(vimp)
   },
-  selectSize = pickSizeBest,
-  selectVar = pickVars,
+  selectSize = caret::pickSizeBest,
+  selectVar = caret::pickVars,
   summary = improvedSummary
 )
