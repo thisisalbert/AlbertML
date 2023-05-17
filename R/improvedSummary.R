@@ -25,10 +25,10 @@ improvedSummary <- function(data, lev = NULL, model = NULL) {
   Balanced_Accuracy = (Sensitivity + Specificity)/2
   
   return(c(
+    AUROC = rocAUC,
     Accuracy = Accuracy, 
     Balanced_Accuracy = Balanced_Accuracy, 
     Kappa = Kappa,
-    AUROC = rocAUC,
     Sensitivity = Sensitivity,
     Specificity = Specificity,
     F1 = F1
