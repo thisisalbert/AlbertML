@@ -1,4 +1,4 @@
-getTestResults_Alternative <- function(
+getTestResults <- function(
     model, 
     prob_preds, 
     real_labels, 
