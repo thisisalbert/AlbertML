@@ -1,40 +1,34 @@
 rangerFuncs <- list(
-  fit =  function(x, y, first, last, ...) {
+  fit = function(x, y, first, last, ...){
     loadNamespace("ranger")
-    dat <- if(is.data.frame(x)) {
-      x
-    } else {
-      as.data.frame(x)
-    }
+    dat <- if (is.data.frame(x)) x else as.data.frame(x)
     dat$.outcome <- y
     ranger::ranger(
-      formula = .outcome ~ ., 
-      data = dat, 
-      importance = if(first) "impurity" else "none", 
-      probability = is.factor(y),
-      write.forest = TRUE,
+      formula = .outcome ~ .,
+      data = dat,
+      importance = "impurity",
+      probability = TRUE,
       ...
     )
   },
-  pred = function(object, x)  {
-    if(!is.data.frame(x)) x <- as.data.frame(x)
-    out <- predict(object, x)$predictions
-    if(object$treetype == "Probability estimation") {
-      out <- cbind(pred = colnames(out)[apply(out, 1, which.max)], out)
-    }
-    out
+  pred = function(object, x, ...){
+    if (!is.data.frame(x)) x <- as.data.frame(x)
+    prob <- predict(object, x)$predictions
+    case <- str_subset(colnames(prob), "^inf_pos$|^sepsis_pos$|^od_pos$")
+    control <- str_subset(colnames(prob), "^inf_pos$|^sepsis_pos$|^od_pos$", negate = TRUE)
+    raws <- factor(x = colnames(prob)[apply(prob, 1, which.max)], levels = c(case, control))
+    cbind(data.frame(pred = raws), as.data.frame(prob))
   },
-  rank = function(object, x, y) {
-    if(length(object$variable.importance) == 0) {
-      stop("No importance values available")
-    }
-    imps <- ranger:::importance(object)
-    vimp <- data.frame(Overall = as.vector(imps), var = names(imps))
-    rownames(vimp) <- names(imps)
-    vimp <- vimp[order(vimp$Overall, decreasing = TRUE),, drop = FALSE]
-    vimp
+  rank = function(object, ...){
+    vimp <- data.frame(ranger::importance(object))
+    colnames(vimp) <- "Overall"
+    vimp$var <- rownames(vimp)
+    vimp <- vimp[order(vimp$Overall, decreasing = TRUE), , drop = FALSE]
+    rownames(vimp) <- NULL
+    vimp <- vimp[, c("var", "Overall")]
+    return(vimp)
   },
-  selectSize = pickSizeBest,
-  selectVar = pickVars,
+  selectSize = caret::pickSizeBest,
+  selectVar = caret::pickVars,
   summary = improvedSummary
 )
