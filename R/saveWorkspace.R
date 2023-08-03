@@ -18,8 +18,7 @@ saveWorkspace <- function(workdir = outDir, nameImage = "workspace", saveEnv = T
       con = file.path(destination, format(Sys.Date(), "%y_%m_%d_sessionInfo.txt"))
     )
   }
-}
-
-message("\nWorkspace has been saved!\n")
-
+  
+  message("\nWorkspace has been saved!\n")  
+  
 }
