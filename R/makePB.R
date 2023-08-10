@@ -7,3 +7,8 @@ makePB <- function(total_n) {
     clear = FALSE
   )
 }
+
+# In case of using the function in a loop, make sure to use:
+# pb <- makePB(total_iterations)
+# (start of the loop) pb$update(i/total_iterations)
+# (end of the loop) pb$terminate()
