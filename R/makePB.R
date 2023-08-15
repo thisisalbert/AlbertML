@@ -1,5 +1,5 @@
 makePB <- function(total_n) {
-  loadNamespace("progress")
+  require("progress")
   progress_bar$new(
     format = "[:bar] :percent ETA: :eta",
     total = total_n,
