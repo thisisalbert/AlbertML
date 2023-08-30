@@ -1,5 +1,5 @@
 PrevalencePPVandNPV <- function(
-    Sens = Sens, Spec = Spec, Min_Prevalence = 0.1, Max_Prevalence = 0.9
+    Sens = Sens, Spec = Spec, Min_Prevalence = 0.1, Max_Prevalence = 0.5
 ) {
   
   prevalence = seq(Min_Prevalence, Max_Prevalence, 0.1)
