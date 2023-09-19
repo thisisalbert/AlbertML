@@ -1,5 +1,6 @@
 svmFunc <- list(
   fit = function(x, y, first, last, ...){
+    loadNamespace("caret")
     loadNamespace("e1071")
     dat <- if (is.data.frame(x)) x else as.data.frame(x)
     dat$.outcome <- y
