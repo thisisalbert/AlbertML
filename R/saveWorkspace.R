@@ -19,7 +19,7 @@ saveWorkspace <-
     if (saveLog) {
       writeLines(
         text = capture.output(sessionInfo()), 
-        con = file.path(destination, format(Sys.Date(), "%y_%m_%d_", nameLog, ".txt"))
+        con = file.path(destination, paste0(format(Sys.time(), "%y_%m_%d_"), nameLog, ".txt"))
       )
     }
     
