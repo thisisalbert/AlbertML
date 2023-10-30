@@ -1,0 +1,21 @@
+{
+    "foldAll": "",
+    "fold": "||",
+    "unfoldAll": "",
+    "unfold": "||",
+    "sourceActiveDocumentWithEcho": "Ctrl+Shift+F9",
+    "sourceActiveDocument": "",
+    "sourceFile": "",
+    "sourceNavigateBack": "",
+    "sourceNavigateForward": "",
+    "executeAllCode": "",
+    "firstTab": "",
+    "lastTab": "",
+    "nextTab": "Ctrl+PageDown",
+    "previousTab": "Ctrl+PageUp",
+    "clearPlots": "Ctrl+Shift+F12",
+    "clearWorkspace": "Ctrl+Shift+F11",
+    "saveSourceDocAs": "Ctrl+Alt+Shift+S",
+    "closeSourceDoc": "Ctrl+Q",
+    "quitSession": ""
+}

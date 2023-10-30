@@ -1,42 +1,22 @@
-FROM rocker/tidyverse:4.3.0
-LABEL maintainer="Albert Garcia Lopez https://github.com/thisisalbert"
+FROM rocker/tidyverse:4.3.1
+LABEL maintainer="Albert Garcia Lopez albertgarcialopez313@gmail.com"
 
-# Number of cores
+# Variables
 ENV N_CORES="4"
+ENV CRAN_MIRROR="https://packagemanager.rstudio.com/cran/2023-10-06"
 
-# Frozen CRAN repository
-ENV CRAN_MIRROR=https://packagemanager.rstudio.com/cran/2023-05-15/
+# Set the CRAN mirror to the specific snapshot date
+RUN echo "options(repos = c(CRAN = '$CRAN_MIRROR'))" >> /etc/R/Rprofile.site
 
-# Create user "albert" and set it as the home directory
-RUN useradd -ms /bin/bash albert
-ENV HOME=/home/albert
-WORKDIR $HOME
-
-# Set the CRAN mirror to a frozen repository
-RUN echo "options(repos = c(CRAN = '$CRAN_MIRROR'))" > /etc/R/Rprofile.site
-
-# Install Linux dependencies
-RUN apt update && apt install -y \
-	build-essential \
-	libglpk40 \
-	libpng-dev \
-	libxml2-dev \
-	libcurl4-openssl-dev \
-	libssl-dev \
-	libgit2-dev \
-	libv8-dev \
-	libbz2-dev \
-	liblzma-dev \
-	&& apt-get -y autoclean \
-	&& apt-get -y autoremove \
-	&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+# Copy settings, keybinds, and typographic fonts
+COPY . /home/rstudio/.config/rstudio
 
 # Install CRAN R packages required for machine learning
 RUN install2.r -e -n $N_CORES \
-	pacman \
-	rio \
 	tidymodels \
 	caret \
+	rio \
+	janitor \
 	ROSE \
 	PRROC \
 	kernlab \
@@ -47,27 +27,44 @@ RUN install2.r -e -n $N_CORES \
 	doParallel \
 	DescTools \
 	paletteer \
+	pacman \
 	skimr \
 	purrr \
 	magrittr \
-	janitor \
 	svMisc \
 	kknn \
 	ranger \
 	igraph \
-	themis
+	themis \
+	ggvenn \
+	progress \
+	ggExtra \
+	doMC \
+	BiocManager
+
+# Install Bioconductor packages
+RUN R -e "BiocManager::install(c('AnnotationDbi', 'org.Hs.eg.db'))"
+
+# Install InformationValue (discontinued, last version is 1.2.3)
+RUN R -e "devtools::install_version('InformationValue', '1.2.3')"
+
+# Install DMwR (discontinued, last version is 0.4.1)
+RUN R -e "devtools::install_version('DMwR', '0.4.1')"
 
 # Install addins
-RUN R -e "install.packages(c('devtools', 'remotes'), repos = c('$CRAN_MIRROR')); \
-	devtools::install_github(c('rstudio/addinexamples', 'ThinkR-open/littleboxes', 'fkeck/quickview', 'daattali/colourpicker', 'strboul/caseconverter', 'stevenpawley/recipeselectors'), type = 'source')"
+RUN R -e "devtools::install_github('rstudio/addinexamples', type = 'source')" \
+	R -e "devtools::install_github('ThinkR-open/littleboxes')" \
+	R -e "devtools::install_github('fkeck/quickview')" \
+	R -e "devtools::install_github('daattali/colourpicker')" \
+	R -e "devtools::install_github('strboul/caseconverter')" \
+	R -e "devtools::install_github('stevenpawley/recipeselectors')"
 
-# Copy custom RStudio theme
-COPY dracula_custom.rstheme $HOME
-
-# Copy R custom functions
-RUN mkdir $HOME/R
-COPY ./R $HOME/R
+# Final cleanup
+RUN apt-get -y autoclean \
+	&& apt-get -y autoremove \
+	&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Initialize container
+SHELL ["/bin/bash", "-c"]
 EXPOSE 8787
 CMD ["/init"]
